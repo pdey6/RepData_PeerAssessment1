@@ -3,6 +3,7 @@ title: "Reproducible Research: Peer Assessment Project 1"
 author: "Pritam Dey"
 date: 10-Apr-2015
 output: html_document
+keep_md: true
 ---
 # About this file
 This is the first Peer Assessment project for the course **Reproducible Research** in Coursera's Data Science specialization. This assignment helps us to practically demonstrate how to write R markdown document.
