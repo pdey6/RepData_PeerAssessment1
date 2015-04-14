@@ -130,7 +130,7 @@ The total number of missing values in the dataset is: `r incomplete_cases`.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r echo = TRUE}
+```{r results='asis', echo = TRUE}
 
         # helper function to decide if a day is a weekday or not
         is_weekday <- function(d) {
