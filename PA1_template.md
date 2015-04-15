@@ -1,10 +1,8 @@
 ---
 title: 'Reproducible Research: Peer Assessment Project 1'
 author: "Pritam Dey"
-date: "10-Apr-2015"
-output:
-  html_document:
-    keep_md: yes
+date: "15-Apr-2015"
+output: html_document
 keep_md: yes
 ---
 # About this file
@@ -24,7 +22,7 @@ The variables included in this dataset are:
 
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
 
-# Loading and preprocessing the data
+## 1. Loading and preprocessing the data
 
 *The code downloads the zip file (if it does not already exist), extracts the csv file, reads it, and displays the head and dimensions of the data.*
 
@@ -58,9 +56,9 @@ dim(data)
 ## [1] 17568     3
 ```
 
-# What is mean total number of steps taken per day?
+## 2. What is mean total number of steps taken per day?
 
-*1. Calculate the total number of steps taken per day* 
+*Calculate the total number of steps taken per day* 
 
 
 ```r
@@ -78,7 +76,7 @@ dim(data)
 **Mean** of the total number of steps taken per day is: 10766  
 **Median** of the total number of steps taken per day is: 10765
 
-## What is the average daily activity pattern?
+## 3. What is the average daily activity pattern?
 
 
 ```r
@@ -93,7 +91,7 @@ dim(data)
 ```
 The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is 835.
 
-## Imputing missing values
+## 4. Imputing missing values
 
 *There are a number of missing values in the dataset. This is likely to introduce bias in the
 calculation. The code will fill the missing values, create a new dataset with complete values,
@@ -108,7 +106,13 @@ If a 5-minute interval on a particular date has missing value, we use the mean f
         incomplete_cases <- sum(!complete.cases(data))
 ```
 
-The total number of missing values in the dataset is: 2304.
+*Calculate and report the total number of missing values in the dataset (i.e. the total number ## of rows with NAs)*
+
+**The total number of missing values in the dataset is: 2304.**
+
+*Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.*
+
+**My strategy for filling in the missing values in the dataset is to use the mean steps for that 5-minute interval**
 
 
 ```r
@@ -156,13 +160,15 @@ The total number of missing values in the dataset is: 2304.
         total_diff <- sum(steps_by_day_i$steps) - sum(total_steps_taken_per_day$steps)
 ```
 
-* The imputed data mean is: 10766
-* The imputed data median is: 10766
-* The difference between the non-imputed mean and imputed mean is: 0
-* The difference between the non-imputed mean and imputed mean is: 1
-* The difference between total number of steps between imputed and non-imputed data is 86130. Thus, there were 86130 more steps in the imputed data.
+## Summary of the new dataset after imputting missing values:
 
-## Are there differences in activity patterns between weekdays and weekends?
+**The imputed data mean is: 10766**  
+**The imputed data median is: 10766**  
+**The difference between the non-imputed mean and imputed mean is: 0**  
+**The difference between the non-imputed mean and imputed mean is: 1**  
+**The difference between total number of steps between imputed and non-imputed data is 86130. Thus, there were 86130 more steps in the imputed data.**
+
+## 5. Are there differences in activity patterns between weekdays and weekends?
 
 
 ```r
@@ -174,18 +180,7 @@ The total number of missing values in the dataset is: 2304.
 
         wx <- sapply(as.Date(impute_data$date), is_weekday)
         impute_data$wk <- as.factor(wx)
-        head(impute_data)
-```
-
-      steps       date interval      wk
-1 1.7169811 2012-10-01        0 weekday
-2 0.3396226 2012-10-01        5 weekday
-3 0.1320755 2012-10-01       10 weekday
-4 0.1509434 2012-10-01       15 weekday
-5 0.0754717 2012-10-01       20 weekday
-6 2.0943396 2012-10-01       25 weekday
-
-```r
+        
         wk_df <- aggregate(steps ~ wk+interval, data=impute_data, FUN=mean)
 
         library(lattice)
@@ -194,9 +189,5 @@ The total number of missing values in the dataset is: 2304.
 
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
 
-*From the panel plot it looks like the weekday activities arise earlier than the weekends weekday
-activities arise around 5~6am and weekend activities arise around 8am. We can
-also observe that from 10am to 5pm, the weekends have higher activity levels than the
-weekdays.*
-
+**Yes, there are noticable differences in activity patterns between weekdays and weekends. The panel plot above shows that during weekdays, activities start earlier than those during weekends.**
 

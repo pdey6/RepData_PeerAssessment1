@@ -221,7 +221,7 @@ hr {
 
 <p>The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.</p>
 
-<h1>Loading and preprocessing the data</h1>
+<h2>1. Loading and preprocessing the data</h2>
 
 <p><em>The code downloads the zip file (if it does not already exist), extracts the csv file, reads it, and displays the head and dimensions of the data.</em></p>
 
@@ -250,9 +250,9 @@ head(data)
 <pre><code>## [1] 17568     3
 </code></pre>
 
-<h1>What is mean total number of steps taken per day?</h1>
+<h2>2. What is mean total number of steps taken per day?</h2>
 
-<p><em>1. Calculate the total number of steps taken per day</em> </p>
+<p><em>Calculate the total number of steps taken per day</em> </p>
 
 <pre><code class="r">        total_steps_taken_per_day &lt;- aggregate(steps ~ date, data, sum, na.rm=TRUE)
         mean_steps &lt;- mean(total_steps_taken_per_day$steps)
@@ -268,7 +268,7 @@ head(data)
 <strong>Mean</strong> of the total number of steps taken per day is: 10766<br/>
 <strong>Median</strong> of the total number of steps taken per day is: 10765</p>
 
-<h2>What is the average daily activity pattern?</h2>
+<h2>3. What is the average daily activity pattern?</h2>
 
 <pre><code class="r">        steps_by_5_min_interval &lt;- aggregate(steps ~ interval, data, mean)
         plot(steps_by_5_min_interval$interval,steps_by_5_min_interval$steps, type=&quot;l&quot;, xlab=&quot;5-minute Interval&quot;, ylab=&quot;Average Number of Steps Taken&quot;,main=&quot;Average Number of Steps Taken Per Day by Interval&quot;)
@@ -281,7 +281,7 @@ head(data)
 
 <p>The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is 835.</p>
 
-<h2>Imputing missing values</h2>
+<h2>4. Imputing missing values</h2>
 
 <p>*There are a number of missing values in the dataset. This is likely to introduce bias in the
 calculation. The code will fill the missing values, create a new dataset with complete values,
@@ -294,7 +294,13 @@ represented by a histogram.  </p>
         incomplete_cases &lt;- sum(!complete.cases(data))
 </code></pre>
 
-<p>The total number of missing values in the dataset is: 2304.</p>
+<p><em>Calculate and report the total number of missing values in the dataset (i.e. the total number ## of rows with NAs)</em></p>
+
+<p><strong>The total number of missing values in the dataset is: 2304.</strong></p>
+
+<p><em>Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.</em></p>
+
+<p><strong>My strategy for filling in the missing values in the dataset is to use the mean steps for that 5-minute interval</strong></p>
 
 <pre><code class="r">        # Create new data frame loaded with original base data for imputation
         impute_data &lt;- data
@@ -338,15 +344,15 @@ represented by a histogram.  </p>
         total_diff &lt;- sum(steps_by_day_i$steps) - sum(total_steps_taken_per_day$steps)
 </code></pre>
 
-<ul>
-<li>The imputed data mean is: 10766</li>
-<li>The imputed data median is: 10766</li>
-<li>The difference between the non-imputed mean and imputed mean is: 0</li>
-<li>The difference between the non-imputed mean and imputed mean is: 1</li>
-<li>The difference between total number of steps between imputed and non-imputed data is 86130. Thus, there were 86130 more steps in the imputed data.</li>
-</ul>
+<h2>Summary of the new dataset after imputting missing values:</h2>
 
-<h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+<p><strong>The imputed data mean is: 10766</strong><br/>
+<strong>The imputed data median is: 10766</strong><br/>
+<strong>The difference between the non-imputed mean and imputed mean is: 0</strong><br/>
+<strong>The difference between the non-imputed mean and imputed mean is: 1</strong><br/>
+<strong>The difference between total number of steps between imputed and non-imputed data is 86130. Thus, there were 86130 more steps in the imputed data.</strong></p>
+
+<h2>5. Are there differences in activity patterns between weekdays and weekends?</h2>
 
 <pre><code class="r">        # helper function to decide if a day is a weekday or not
         is_weekday &lt;- function(d) {
@@ -356,20 +362,8 @@ represented by a histogram.  </p>
 
         wx &lt;- sapply(as.Date(impute_data$date), is_weekday)
         impute_data$wk &lt;- as.factor(wx)
-        head(impute_data)
-</code></pre>
 
-<pre><code>  steps       date interval      wk
-</code></pre>
-
-<p>1 1.7169811 2012-10-01        0 weekday
-2 0.3396226 2012-10-01        5 weekday
-3 0.1320755 2012-10-01       10 weekday
-4 0.1509434 2012-10-01       15 weekday
-5 0.0754717 2012-10-01       20 weekday
-6 2.0943396 2012-10-01       25 weekday</p>
-
-<pre><code class="r">        wk_df &lt;- aggregate(steps ~ wk+interval, data=impute_data, FUN=mean)
+        wk_df &lt;- aggregate(steps ~ wk+interval, data=impute_data, FUN=mean)
 
         library(lattice)
         xyplot(steps ~ interval | factor(wk), layout = c(1, 2), xlab=&quot;Interval&quot;, ylab=&quot;Number of         steps&quot;, type=&quot;l&quot;, lty=1, data=wk_df)  
@@ -377,10 +371,7 @@ represented by a histogram.  </p>
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-6"/> </p>
 
-<p><em>From the panel plot it looks like the weekday activities arise earlier than the weekends weekday
-activities arise around 5~6am and weekend activities arise around 8am. We can
-also observe that from 10am to 5pm, the weekends have higher activity levels than the
-weekdays.</em></p>
+<p><strong>Yes, there are noticable differences in activity patterns between weekdays and weekends. The panel plot above shows that during weekdays, activities start earlier than those during weekends.</strong></p>
 
 </body>
 

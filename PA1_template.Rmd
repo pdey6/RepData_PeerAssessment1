@@ -22,7 +22,7 @@ The variables included in this dataset are:
 
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
 
-# Loading and preprocessing the data
+## 1. Loading and preprocessing the data
 
 *The code downloads the zip file (if it does not already exist), extracts the csv file, reads it, and displays the head and dimensions of the data.*
 
@@ -38,9 +38,9 @@ head(data)
 dim(data)
 ```
 
-# What is mean total number of steps taken per day?
+## 2. What is mean total number of steps taken per day?
 
-*1. Calculate the total number of steps taken per day* 
+*Calculate the total number of steps taken per day* 
 
 ```{r echo = TRUE, fig.height=5}
 
@@ -57,7 +57,7 @@ dim(data)
 **Mean** of the total number of steps taken per day is: `r format(round(mean_steps))`  
 **Median** of the total number of steps taken per day is: `r median_steps`
 
-## What is the average daily activity pattern?
+## 3. What is the average daily activity pattern?
 
 ```{r echo = TRUE, fig.height=5}
         steps_by_5_min_interval <- aggregate(steps ~ interval, data, mean)
@@ -67,7 +67,7 @@ dim(data)
 ```
 The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is `r max_5_min_interval`.
 
-## Imputing missing values
+## 4. Imputing missing values
 
 *There are a number of missing values in the dataset. This is likely to introduce bias in the
 calculation. The code will fill the missing values, create a new dataset with complete values,
@@ -82,7 +82,13 @@ If a 5-minute interval on a particular date has missing value, we use the mean f
         incomplete_cases <- sum(!complete.cases(data))
 ```
 
-The total number of missing values in the dataset is: `r incomplete_cases`.
+*Calculate and report the total number of missing values in the dataset (i.e. the total number ## of rows with NAs)*
+
+**The total number of missing values in the dataset is: `r incomplete_cases`.**
+
+*Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.*
+
+**My strategy for filling in the missing values in the dataset is to use the mean steps for that 5-minute interval**
 
 ```{r echo = TRUE}
         # Create new data frame loaded with original base data for imputation
@@ -122,15 +128,17 @@ The total number of missing values in the dataset is: `r incomplete_cases`.
         total_diff <- sum(steps_by_day_i$steps) - sum(total_steps_taken_per_day$steps)
 ```
 
-* The imputed data mean is: `r format(round(new_mean))`
-* The imputed data median is: `r format(round(new_median))`
-* The difference between the non-imputed mean and imputed mean is: `r format(round(mean_diff))`
-* The difference between the non-imputed mean and imputed mean is: `r format(round(med_diff))`
-* The difference between total number of steps between imputed and non-imputed data is `r format(round(total_diff))`. Thus, there were `r format(round(total_diff))` more steps in the imputed data.
+## Summary of the new dataset after imputting missing values:
 
-## Are there differences in activity patterns between weekdays and weekends?
+**The imputed data mean is: `r format(round(new_mean))`**  
+**The imputed data median is: `r format(round(new_median))`**  
+**The difference between the non-imputed mean and imputed mean is: `r format(round(mean_diff))`**  
+**The difference between the non-imputed mean and imputed mean is: `r format(round(med_diff))`**  
+**The difference between total number of steps between imputed and non-imputed data is `r format(round(total_diff))`. Thus, there were `r format(round(total_diff))` more steps in the imputed data.**
 
-```{r echo = TRUE}
+## 5. Are there differences in activity patterns between weekdays and weekends?
+
+```{r results='asis', echo = TRUE}
 
         # helper function to decide if a day is a weekday or not
         is_weekday <- function(d) {
@@ -140,8 +148,7 @@ The total number of missing values in the dataset is: `r incomplete_cases`.
 
         wx <- sapply(as.Date(impute_data$date), is_weekday)
         impute_data$wk <- as.factor(wx)
-        head(impute_data)
-
+        
         wk_df <- aggregate(steps ~ wk+interval, data=impute_data, FUN=mean)
 
         library(lattice)
@@ -149,8 +156,5 @@ The total number of missing values in the dataset is: `r incomplete_cases`.
 
 ```
 
-*From the panel plot it looks like the weekday activities arise earlier than the weekends weekday
-activities arise around 5~6am and weekend activities arise around 8am. We can
-also observe that from 10am to 5pm, the weekends have higher activity levels than the
-weekdays.*
+**Yes, there are noticable differences in activity patterns between weekdays and weekends. The panel plot above shows that during weekdays, activities start earlier than those during weekends.**
 
