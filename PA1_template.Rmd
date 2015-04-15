@@ -2,7 +2,7 @@
 title: 'Reproducible Research: Peer Assessment Project 1'
 author: "Pritam Dey"
 date: "15-Apr-2015"
-output:html_document:
+output: html_document
 keep_md: yes
 ---
 # About this file
