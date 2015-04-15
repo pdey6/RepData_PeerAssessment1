@@ -1,6 +1,12 @@
-# Reproducible Research: Peer Assessment Project 1
-Pritam Dey  
-10-Apr-2015  
+---
+title: 'Reproducible Research: Peer Assessment Project 1'
+author: "Pritam Dey"
+date: "10-Apr-2015"
+output:
+  html_document:
+    keep_md: yes
+keep_md: yes
+---
 # About this file
 This is the first Peer Assessment project for the course **Reproducible Research** in Coursera's Data Science specialization. This assignment helps us to practically demonstrate how to write R markdown document.
 
@@ -66,7 +72,7 @@ dim(data)
         hist(total_steps_taken_per_day$steps, main = paste("Total Steps Taken Per Day"), col ="blue", xlab="Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
 **Total** number of steps taken per day is: 570608  
 **Mean** of the total number of steps taken per day is: 10766  
@@ -80,7 +86,7 @@ dim(data)
         plot(steps_by_5_min_interval$interval,steps_by_5_min_interval$steps, type="l", xlab="5-minute Interval", ylab="Average Number of Steps Taken",main="Average Number of Steps Taken Per Day by Interval")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 ```r
         max_5_min_interval <- steps_by_5_min_interval[which.max(steps_by_5_min_interval$steps),1]
@@ -123,7 +129,7 @@ The total number of missing values in the dataset is: 2304.
         hist(x=new_dailysum,col="blue",breaks=20,xlab="Number of Steps",ylab="Frequency",main="Total Steps Taken Per Day (with missing data imputed)")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
 ```r
         # Recount total steps by day and create Histogram. 
@@ -136,7 +142,7 @@ The total number of missing values in the dataset is: 2304.
         legend("topright", c("Imputed", "Non-imputed"), col=c("blue", "red"), lwd=10)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-2.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-2.png) 
 
 ```r
         # Summarize the total and difference
@@ -186,7 +192,7 @@ The total number of missing values in the dataset is: 2304.
         xyplot(steps ~ interval | factor(wk), layout = c(1, 2), xlab="Interval", ylab="Number of         steps", type="l", lty=1, data=wk_df)  
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
 
 *From the panel plot it looks like the weekday activities arise earlier than the weekends weekday
 activities arise around 5~6am and weekend activities arise around 8am. We can
